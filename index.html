@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Computing Practice Examination</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #F3EFE6;
+    --card: #FBF9F3;
+    --paper-edge: #E4DCC8;
+    --ink: #1C2033;
+    --ink-soft: #57596E;
+    --navy: #14213D;
+    --navy-soft: #24365E;
+    --maroon: #7A1930;
+    --gold: #A9812F;
+    --good: #2F6B4F;
+    --line: #CFC7B2;
+    color-scheme: light;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{ height: 100%; }
+
+  body{
+    margin: 0;
+    min-height: 100vh;
+    background:
+      repeating-linear-gradient(135deg, rgba(28,32,51,0.025) 0px, rgba(28,32,51,0.025) 1px, transparent 1px, transparent 22px),
+      var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  h1, h2, h3{
+    font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    margin: 0;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    background: var(--navy);
+    color: #F3EFE6;
+    padding: 14px 22px calc(14px + env(safe-area-inset-top, 0px));
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 3px solid var(--gold);
+  }
+
+  .masthead-left{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .seal{
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  .masthead-title h1{
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .masthead-title p{
+    margin: 2px 0 0;
+    font-size: 0.78rem;
+    color: rgba(243,239,230,0.7);
+  }
+
+  .masthead-right{
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 0.82rem;
+    color: rgba(243,239,230,0.85);
+  }
+
+  .masthead-right .value{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    color: #F3EFE6;
+    font-size: 0.92rem;
+  }
+
+  /* ---------- Layout ---------- */
+  .stage{
+    display: flex;
+    justify-content: center;
+    padding: 34px 16px 60px;
+  }
+
+  .sheet{
+    width: 100%;
+    max-width: 720px;
+  }
+
+  /* ---------- Cover / start screen ---------- */
+  .cover{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: 0 18px 40px rgba(28,32,51,0.12);
+    padding: 44px 40px;
+  }
+
+  .cover h2{
+    font-size: 1.7rem;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  .cover .subtitle{
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+    margin-bottom: 28px;
+  }
+
+  .rules{
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px;
+    border-top: 1px solid var(--line);
+  }
+
+  .rules li{
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 12px;
+    font-size: 0.93rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .rules li .mark{
+    color: var(--maroon);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .field-label{
+    display: block;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .name-input{
+    width: 100%;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 11px 4px;
+    border: none;
+    border-bottom: 2px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    margin-bottom: 30px;
+  }
+
+  .name-input:focus{
+    outline: none;
+    border-bottom-color: var(--navy);
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 13px 26px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .btn-primary{
+    background: var(--navy);
+    color: #F3EFE6;
+  }
+
+  .btn-primary:hover{
+    background: var(--navy-soft);
+  }
+
+  .btn-primary:active{ transform: translateY(1px); }
+
+  .btn-ghost{
+    background: transparent;
+    color: var(--navy);
+    border: 1px solid var(--navy);
+  }
+
+  .btn-ghost:hover{ background: rgba(20,33,61,0.06); }
+
+  .btn-row{
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 26px;
+  }
+
+  /* ---------- Exam card ---------- */
+  .exam-card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: 0 18px 40px rgba(28,32,51,0.12);
+    padding: 36px 38px;
+    animation: cardIn 0.28s ease;
+  }
+
+  @keyframes cardIn{
+    from{ opacity: 0; transform: translateY(6px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+
+  .card-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 24px;
+  }
+
+  .card-head h2{
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .card-head .section-label{
+    margin-top: 4px;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+
+  .timer-pill{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 2px solid var(--navy);
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  .timer-pill.warn{
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .timer-pill.critical{
+    border-color: var(--maroon);
+    color: var(--maroon);
+    animation: pulseTimer 0.9s ease-in-out infinite;
+  }
+
+  @keyframes pulseTimer{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(122,25,48,0.0); }
+    50%{ box-shadow: 0 0 0 6px rgba(122,25,48,0.12); }
+  }
+
+  .prompt{
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.22rem;
+    line-height: 1.55;
+    max-width: 62ch;
+    margin: 0 0 22px;
+  }
+
+  .prompt .intro{
+    font-size: 1.02rem;
+    color: var(--ink-soft);
+    font-family: 'IBM Plex Sans', sans-serif;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  /* code listing */
+  .listing{
+    background: #14213D;
+    color: #E9ECF5;
+    border-radius: 4px;
+    padding: 16px 18px;
+    margin: 0 0 22px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+
+  .listing .ln{
+    color: rgba(233,236,245,0.4);
+    display: inline-block;
+    width: 22px;
+    user-select: none;
+  }
+
+  /* answer line (short fill-in) */
+  .answer-line{
+    width: 100%;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.05rem;
+    padding: 10px 4px;
+    border: none;
+    border-bottom: 2px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .answer-line:focus{
+    outline: none;
+    border-bottom-color: var(--navy);
+  }
+
+  /* code / pseudocode textarea */
+  .answer-code{
+    width: 100%;
+    min-height: 92px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #FFFEFB;
+    color: var(--ink);
+    resize: vertical;
+  }
+
+  .answer-code:focus{
+    outline: none;
+    border-color: var(--navy);
+  }
+
+  .sub-label{
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin: 18px 0 8px;
+  }
+
+  /* option rows (MCQ, error-type) */
+  .options{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .option-row{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #FFFEFB;
+    cursor: pointer;
+    font-size: 0.98rem;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+
+  .option-row:hover{ border-color: var(--navy-soft); }
+
+  .option-row.selected{
+    background: var(--navy);
+    border-color: var(--navy);
+    color: #F3EFE6;
+  }
+
+  .option-letter{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    width: 20px;
+    flex-shrink: 0;
+  }
+
+  /* classification sub-parts */
+  .classify-part{
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    background: #FFFEFB;
+  }
+
+  .classify-part .part-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+  }
+
+  .classify-options{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .chip{
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    font-size: 0.86rem;
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  .chip.selected{
+    background: var(--navy);
+    border-color: var(--navy);
+    color: #F3EFE6;
+  }
+
+  .no-skip-note{
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  /* ---------- Results ---------- */
+  .result-banner{
+    text-align: center;
+    padding: 28px 10px 8px;
+  }
+
+  .result-score{
+    font-family: 'Source Serif 4', serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--navy);
+  }
+
+  .result-verdict{
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  .result-verdict.pass{ color: var(--good); }
+  .result-verdict.review{ color: var(--maroon); }
+
+  .result-note{
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin-top: 8px;
+  }
+
+  .review-list{
+    margin-top: 26px;
+    border-top: 1px solid var(--line);
+  }
+
+  .review-item{
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .review-item .q-num{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+
+  .review-item .q-prompt{
+    font-size: 0.98rem;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .review-row{
+    display: flex;
+    gap: 8px;
+    font-size: 0.88rem;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
+  }
+
+  .review-row .tag{
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    width: 92px;
+  }
+
+  .review-row .your-answer.wrong{ color: var(--maroon); }
+  .review-row .your-answer.right{ color: var(--good); }
+
+  .mark-badge{
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 6px;
+  }
+
+  .mark-badge.full{ background: rgba(47,107,79,0.14); color: var(--good); }
+  .mark-badge.partial{ background: rgba(169,129,47,0.16); color: var(--gold); }
+  .mark-badge.none{ background: rgba(122,25,48,0.12); color: var(--maroon); }
+
+  @media (max-width: 600px){
+    .exam-card, .cover{ padding: 26px 20px; }
+    .card-head{ flex-direction: column; }
+    .timer-pill{ align-self: flex-start; }
+    .result-score{ font-size: 2.6rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-left">
+    <svg class="seal" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="24" cy="24" r="22" fill="none" stroke="#A9812F" stroke-width="2"/>
+      <circle cx="24" cy="24" r="17" fill="none" stroke="#A9812F" stroke-width="1"/>
+      <text x="24" y="29" text-anchor="middle" font-family="'Source Serif 4', serif" font-size="14" fill="#F3EFE6" font-weight="700">CS</text>
+    </svg>
+    <div class="masthead-title">
+      <h1>Computing Practice Examination</h1>
+      <p>Key Terms &amp; Programming Concepts</p>
+    </div>
+  </div>
+  <div class="masthead-right">
+    <div><span id="candidateDisplay">Candidate: —</span></div>
+    <div>Elapsed <span class="value" id="elapsedDisplay">00:00</span></div>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="sheet">
+
+    <div id="coverScreen" class="cover">
+      <h2>Before you begin</h2>
+      <p class="subtitle">Please read the conditions of this examination carefully.</p>
+
+      <ul class="rules">
+        <li><span class="mark">—</span> Each question has its own time limit, shown in the top right corner. Short-answer and multiple-choice questions allow 1 minute; questions involving code or written answers allow 1.5–2 minutes.</li>
+        <li><span class="mark">—</span> Once time runs out on a question, your current answer is submitted automatically and the examination moves on.</li>
+        <li><span class="mark">—</span> Questions cannot be skipped or revisited once submitted.</li>
+        <li><span class="mark">—</span> Typed answers are not case-sensitive — capital or lowercase letters are both accepted.</li>
+        <li><span class="mark">—</span> There are 22 questions in total, covering key terms, error types, test data, and short pseudocode.</li>
+      </ul>
+
+      <label class="field-label" for="candidateName">Candidate name (optional)</label>
+      <input type="text" id="candidateName" class="name-input" placeholder="Enter your name">
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="beginExam()">Begin Examination</button>
+      </div>
+    </div>
+
+    <div id="examScreen" style="display:none;"></div>
+
+    <div id="resultsScreen" style="display:none;"></div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+
+  // ---------------- Question bank ----------------
+  const TIER_A = 60;   // definitions / straightforward MCQ
+  const TIER_B_MED = 90;   // identification / data classification
+  const TIER_B_LONG = 120; // code correction / pseudocode writing
+
+  const questions = [
+    // Section 1: Key Terms (fill)
+    { type:'fill', section:'Key Terms', time:TIER_A,
+      prompt:"Which term describes a visual representation of an algorithm?",
+      accepted:["flowchart"] },
+    { type:'fill', section:'Key Terms', time:TIER_A,
+      prompt:"This term refers to a sequence of characters that can include text, numbers, or symbols.",
+      accepted:["string"] },
+    { type:'fill', section:'Key Terms', time:TIER_A,
+      prompt:"Which data type is used to store whole numbers?",
+      accepted:["integer"] },
+    { type:'fill', section:'Key Terms', time:TIER_A,
+      prompt:"What is the term for joining two strings together?",
+      accepted:["concatenation"] },
+    { type:'fill', section:'Key Terms', time:TIER_A,
+      prompt:"What is the name given to a named memory location that can store a value?",
+      accepted:["variable"] },
+    { type:'fill', section:'Key Terms', time:TIER_A,
+      prompt:"What term describes step-by-step instructions used to solve a problem?",
+      accepted:["algorithm"] },
+    { type:'fill', section:'Key Terms', time:TIER_A,
+      prompt:"Which type of software runs and manages the computer itself, so that application software can work?",
+      accepted:["system software"] },
+    { type:'fill', section:'Key Terms', time:TIER_A,
+      prompt:"What is the name for software that lets the operating system communicate with a hardware device?",
+      accepted:["device driver"] },
+
+    // Section 2: Multiple Choice
+    { type:'mcq', section:'Key Terms', time:TIER_A,
+      prompt:"Which of these best describes pseudocode?",
+      options:[
+        "A textual representation of an algorithm that focuses on logic rather than a specific programming language",
+        "A type of error that stops a program from running",
+        "A diagram that shows the flow of a program",
+        "A data type used to store decimal numbers"
+      ], correct:0 },
+    { type:'mcq', section:'Key Terms', time:TIER_A,
+      prompt:"What does the term \"cast\" mean in programming?",
+      options:[
+        "Repeating a set of instructions",
+        "Changing the data type of a variable",
+        "Searching through a list of values",
+        "Storing multiple values under one identifier"
+      ], correct:1 },
+    { type:'mcq', section:'Key Terms', time:TIER_A,
+      prompt:"Which data structure in Python can store multiple items of mixed data types under one identifier?",
+      options:["Array","List","Integer","String"], correct:1 },
+    { type:'mcq', section:'Key Terms', time:TIER_A,
+      prompt:"Which of these is an example of system software?",
+      options:["A word processor","An operating system","A web browser","A photo editor"], correct:1 },
+    { type:'mcq', section:'Key Terms', time:TIER_A,
+      prompt:"What is the purpose of a test plan?",
+      options:[
+        "To write the final program code",
+        "To detail the tests to be carried out, the expected results, and whether each test passed",
+        "To design the layout of a flowchart",
+        "To store the variables used in a program"
+      ], correct:1 },
+
+    // Section 3: Identification
+    { type:'fill', section:'Identification', time:TIER_B_MED,
+      prompt:"A programmer repeats an action a set number of times using Python's \"for\" keyword. What type of loop is this?",
+      accepted:["for loop","count-controlled loop","count controlled loop"] },
+    { type:'fill', section:'Identification', time:TIER_B_MED,
+      prompt:"What numerical reference identifies the position of an item stored in an array?",
+      accepted:["index"] },
+
+    // Section 4: Error types & correction
+    { type:'code', section:'Error Types', time:TIER_B_LONG,
+      lines:["if x == 5", "    print(\"Five\")"],
+      errorPrompt:"This code will not run at all. What type of error is this?",
+      errorOptions:["Syntax Error","Runtime Error","Logic Error"], correctError:0,
+      fixPrompt:"Rewrite line 1 with the correction.",
+      fixAccepted:["if x == 5:"] },
+    { type:'code', section:'Error Types', time:TIER_B_LONG,
+      lines:["number = 10","result = number / 0","print(result)"],
+      errorPrompt:"This code runs, but crashes partway through. What type of error is this?",
+      errorOptions:["Syntax Error","Runtime Error","Logic Error"], correctError:1,
+      fixPrompt:"Rewrite line 2 so the program no longer crashes, using 5 instead of 0.",
+      fixAccepted:["result = number / 5"] },
+    { type:'code', section:'Error Types', time:TIER_B_LONG,
+      lines:["for i in range(1, 5):","    print(i)"],
+      errorPrompt:"This code runs without crashing, but the output is wrong if the goal was to print the numbers 1 to 5 inclusive. What type of error is this?",
+      errorOptions:["Syntax Error","Runtime Error","Logic Error"], correctError:2,
+      fixPrompt:"Rewrite line 1 so the program prints 1 to 5 inclusive.",
+      fixAccepted:["for i in range(1, 6):"] },
+
+    // Section 5: Test data classification
+    { type:'classify', section:'Test Data', time:TIER_B_MED,
+      lines:["if age >= 18 and age <= 65:","    print(\"Eligible\")"],
+      intro:"This code checks whether a person is eligible based on age (valid range: 18 to 65 inclusive). Classify each value below.",
+      parts:[
+        { label:"age = 40", correct:0 },
+        { label:"age = 18", correct:1 },
+        { label:"age = 70", correct:2 }
+      ] },
+    { type:'classify', section:'Test Data', time:TIER_B_MED,
+      lines:["if score >= 0 and score <= 100:","    print(\"Valid score\")"],
+      intro:"This code checks whether a score is valid (valid range: 0 to 100 inclusive). Classify each value below.",
+      parts:[
+        { label:"score = 55", correct:0 },
+        { label:"score = 100", correct:1 },
+        { label:"score = -10", correct:2 }
+      ] },
+
+    // Section 6: Pseudocode / for loops
+    { type:'pseudo', section:'Pseudocode', time:TIER_B_LONG,
+      prompt:"Write code using a for loop that prints the word \"Hello\" three times.",
+      example:"for i in range(3):\n    print(\"Hello\")",
+      patterns:[/for/, /range\(\s*3\s*\)|range\(\s*0\s*,\s*3\s*\)/, /print\(/, /hello/] },
+    { type:'pseudo', section:'Pseudocode', time:TIER_B_LONG,
+      prompt:"Write code using a for loop that prints the numbers 1, 2 and 3, each on its own line.",
+      example:"for i in range(1, 4):\n    print(i)",
+      patterns:[/for/, /range\(\s*1\s*,\s*4\s*\)/, /print\(/] }
+  ];
+
+  const CLASSIFY_LABELS = ["Normal","Extreme","Invalid"];
+
+  // ---------------- State ----------------
+  let current = 0;
+  let answers = [];
+  let questionTimerId = null;
+  let elapsedTimerId = null;
+  let elapsedSeconds = 0;
+  let examActive = false;
+
+  // in-progress response for the current question
+  let resp = {};
+
+  function normalizeTight(s){
+    return (s || "").toString().trim().toLowerCase().replace(/\s+/g, "");
+  }
+  function normalizeLoose(s){
+    return (s || "").toString().trim().toLowerCase().replace(/\s+/g, " ");
+  }
+  function formatTime(sec){
+    sec = Math.max(0, sec);
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return String(m).padStart(2,'0') + ":" + String(s).padStart(2,'0');
+  }
+
+  window.addEventListener('beforeunload', function(e){
+    if (examActive){
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
+  // ---------------- Elapsed clock ----------------
+  function startElapsedClock(){
+    elapsedSeconds = 0;
+    elapsedTimerId = setInterval(function(){
+      elapsedSeconds++;
+      document.getElementById('elapsedDisplay').textContent = formatTime(elapsedSeconds);
+    }, 1000);
+  }
+  function stopElapsedClock(){
+    clearInterval(elapsedTimerId);
+  }
+
+  // ---------------- Begin exam ----------------
+  window.beginExam = function(){
+    const name = document.getElementById('candidateName').value.trim();
+    document.getElementById('candidateDisplay').textContent =
+      'Candidate: ' + (name ? name : '—');
+
+    document.getElementById('coverScreen').style.display = 'none';
+    document.getElementById('examScreen').style.display = 'block';
+
+    examActive = true;
+    current = 0;
+    answers = [];
+    startElapsedClock();
+    renderQuestion();
+  };
+
+  // ---------------- Per-question timer ----------------
+  function startQuestionTimer(totalTime){
+    let remaining = totalTime;
+    updateTimerPill(remaining, totalTime);
+
+    questionTimerId = setInterval(function(){
+      remaining--;
+      updateTimerPill(remaining, totalTime);
+      if (remaining <= 0){
+        clearInterval(questionTimerId);
+        submitAnswer(true);
+      }
+    }, 1000);
+  }
+  function stopQuestionTimer(){
+    clearInterval(questionTimerId);
+  }
+  function updateTimerPill(remaining, total){
+    const pill = document.getElementById('timerPill');
+    if (!pill) return;
+    pill.textContent = formatTime(remaining);
+    pill.classList.remove('warn','critical');
+    if (remaining <= 10){
+      pill.classList.add('critical');
+    } else if (remaining <= total * 0.34){
+      pill.classList.add('warn');
+    }
+  }
+
+  // ---------------- Rendering ----------------
+  function renderQuestion(){
+    resp = {};
+    const q = questions[current];
+    const container = document.getElementById('examScreen');
+
+    let html = '<div class="exam-card">';
+    html += '<div class="card-head">';
+    html += '<div><h2>Question ' + (current+1) + ' of ' + questions.length + '</h2>';
+    html += '<div class="section-label">Section: ' + q.section + '</div></div>';
+    html += '<div class="timer-pill" id="timerPill">' + formatTime(q.time) + '</div>';
+    html += '</div>';
+
+    if (q.type === 'fill'){
+      html += '<p class="prompt">' + q.prompt + '</p>';
+      html += '<input type="text" class="answer-line" id="fillInput" placeholder="Type your answer" autocomplete="off">';
+    }
+
+    else if (q.type === 'mcq'){
+      html += '<p class="prompt">' + q.prompt + '</p>';
+      html += '<div class="options" id="mcqOptions">';
+      q.options.forEach(function(opt, i){
+        html += optionRow(i, opt, 'mcq');
+      });
+      html += '</div>';
+    }
+
+    else if (q.type === 'code'){
+      html += '<p class="prompt">' + codeListing(q.lines) + '<span style="display:block; margin-top:16px;">' + q.errorPrompt + '</span></p>';
+      html += '<div class="options" id="errorOptions">';
+      q.errorOptions.forEach(function(opt, i){
+        html += optionRow(i, opt, 'error');
+      });
+      html += '</div>';
+      html += '<div class="sub-label">' + q.fixPrompt + '</div>';
+      html += '<textarea class="answer-code" id="fixInput" placeholder="Write the corrected line here" spellcheck="false"></textarea>';
+    }
+
+    else if (q.type === 'classify'){
+      html += '<p class="prompt">' + codeListing(q.lines) + '<span style="display:block; margin-top:16px;">' + q.intro + '</span></p>';
+      q.parts.forEach(function(part, pi){
+        html += '<div class="classify-part">';
+        html += '<div class="part-label">' + part.label + '</div>';
+        html += '<div class="classify-options" id="classifyPart' + pi + '">';
+        CLASSIFY_LABELS.forEach(function(label, li){
+          html += '<button type="button" class="chip" data-part="' + pi + '" data-value="' + li + '" onclick="selectChip(' + pi + ',' + li + ')">' + label + '</button>';
+        });
+        html += '</div></div>';
+      });
+    }
+
+    else if (q.type === 'pseudo'){
+      html += '<p class="prompt">' + q.prompt + '</p>';
+      html += '<textarea class="answer-code" id="pseudoInput" placeholder="Write your code here" spellcheck="false"></textarea>';
+    }
+
+    html += '<div class="no-skip-note">This question cannot be skipped. Submit your answer to continue.</div>';
+    html += '<div class="btn-row"><button class="btn btn-primary" onclick="submitAnswer(false)">' +
+            (current === questions.length - 1 ? 'Finish Examination' : 'Submit Answer') +
+            '</button></div>';
+    html += '</div>';
+
+    container.innerHTML = html;
+
+    if (q.type === 'mcq'){
+      attachOptionHandlers('mcqOptions', 'mcq');
+    } else if (q.type === 'code'){
+      attachOptionHandlers('errorOptions', 'error');
+    }
+
+    // focus + enter-to-submit for single-line inputs
+    const fillEl = document.getElementById('fillInput');
+    if (fillEl){
+      fillEl.focus();
+      fillEl.addEventListener('keydown', function(e){
+        if (e.key === 'Enter') submitAnswer(false);
+      });
+    }
+
+    startQuestionTimer(q.time);
+  }
+
+  function optionRow(i, text, group){
+    const letter = String.fromCharCode(65 + i);
+    return '<div class="option-row" data-group="' + group + '" data-index="' + i + '">' +
+           '<span class="option-letter">' + letter + '</span><span>' + text + '</span></div>';
+  }
+
+  function attachOptionHandlers(containerId, group){
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const rows = container.querySelectorAll('.option-row');
+    rows.forEach(function(row){
+      row.addEventListener('click', function(){
+        rows.forEach(function(r){ r.classList.remove('selected'); });
+        row.classList.add('selected');
+        const idx = parseInt(row.getAttribute('data-index'), 10);
+        if (group === 'mcq') resp.mcqIndex = idx;
+        if (group === 'error') resp.errorIndex = idx;
+      });
+    });
+  }
+
+  window.selectChip = function(partIndex, valueIndex){
+    if (!resp.classify) resp.classify = {};
+    resp.classify[partIndex] = valueIndex;
+    const group = document.getElementById('classifyPart' + partIndex);
+    const chips = group.querySelectorAll('.chip');
+    chips.forEach(function(chip){
+      chip.classList.toggle('selected', parseInt(chip.getAttribute('data-value'),10) === valueIndex);
+    });
+  };
+
+  function codeListing(lines){
+    let html = '<span class="listing" style="display:block;">';
+    lines.forEach(function(line, i){
+      html += '<span class="ln">' + (i+1) + '</span>' + escapeHtml(line) + '<br>';
+    });
+    html += '</span>';
+    return html;
+  }
+
+  function escapeHtml(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ---------------- Grading ----------------
+  function gradeCurrent(){
+    const q = questions[current];
+    let score = 0;
+    let record = { prompt: q.type === 'code' ? q.errorPrompt : (q.type === 'classify' ? q.intro : q.prompt),
+                   section: q.section, type: q.type, yourAnswer: '', correctAnswer: '' };
+
+    if (q.type === 'fill'){
+      const val = document.getElementById('fillInput') ? document.getElementById('fillInput').value : '';
+      const ok = q.accepted.some(function(a){ return normalizeTight(a) === normalizeTight(val); });
+      score = ok ? 1 : 0;
+      record.yourAnswer = val || '(no answer)';
+      record.correctAnswer = q.accepted[0];
+    }
+
+    else if (q.type === 'mcq'){
+      const idx = (typeof resp.mcqIndex === 'number') ? resp.mcqIndex : -1;
+      score = (idx === q.correct) ? 1 : 0;
+      record.yourAnswer = idx >= 0 ? q.options[idx] : '(no answer)';
+      record.correctAnswer = q.options[q.correct];
+    }
+
+    else if (q.type === 'code'){
+      const errIdx = (typeof resp.errorIndex === 'number') ? resp.errorIndex : -1;
+      const fixVal = document.getElementById('fixInput') ? document.getElementById('fixInput').value : '';
+      const errCorrect = errIdx === q.correctError;
+      const fixCorrect = q.fixAccepted.some(function(a){ return normalizeTight(a) === normalizeTight(fixVal); });
+      score = ((errCorrect?1:0) + (fixCorrect?1:0)) / 2;
+      record.yourAnswer = (errIdx >= 0 ? q.errorOptions[errIdx] : '(no answer)') + ' — "' + (fixVal || '(no answer)') + '"';
+      record.correctAnswer = q.errorOptions[q.correctError] + ' — "' + q.fixAccepted[0] + '"';
+    }
+
+    else if (q.type === 'classify'){
+      const chosen = resp.classify || {};
+      let correctCount = 0;
+      const yourParts = [];
+      const correctParts = [];
+      q.parts.forEach(function(part, pi){
+        const sel = (typeof chosen[pi] === 'number') ? chosen[pi] : -1;
+        if (sel === part.correct) correctCount++;
+        yourParts.push(part.label + ': ' + (sel >= 0 ? CLASSIFY_LABELS[sel] : '(none)'));
+        correctParts.push(part.label + ': ' + CLASSIFY_LABELS[part.correct]);
+      });
+      score = correctCount / q.parts.length;
+      record.yourAnswer = yourParts.join(', ');
+      record.correctAnswer = correctParts.join(', ');
+    }
+
+    else if (q.type === 'pseudo'){
+      const val = document.getElementById('pseudoInput') ? document.getElementById('pseudoInput').value : '';
+      const loose = normalizeLoose(val);
+      const matched = q.patterns.filter(function(p){ return p.test(loose); }).length;
+      score = matched / q.patterns.length;
+      record.yourAnswer = val || '(no answer)';
+      record.correctAnswer = 'e.g. ' + q.example;
+    }
+
+    record.score = score;
+    return record;
+  }
+
+  window.submitAnswer = function(timedOut){
+    stopQuestionTimer();
+    const record = gradeCurrent();
+    record.timedOut = !!timedOut;
+    answers.push(record);
+
+    current++;
+    if (current < questions.length){
+      renderQuestion();
+    } else {
+      finishExam();
+    }
+  };
+
+  // ---------------- Results ----------------
+  function finishExam(){
+    examActive = false;
+    stopElapsedClock();
+    document.getElementById('examScreen').style.display = 'none';
+
+    const totalScore = answers.reduce(function(sum, a){ return sum + a.score; }, 0);
+    const pct = Math.round((totalScore / questions.length) * 100);
+    const passed = pct >= 50;
+
+    let html = '<div class="exam-card">';
+    html += '<div class="result-banner">';
+    html += '<div class="result-score">' + pct + '%</div>';
+    html += '<div class="result-verdict ' + (passed ? 'pass' : 'review') + '">' +
+            (passed ? 'Result: Pass' : 'Result: Below passing mark') + '</div>';
+    html += '<div class="result-note">' +
+            (passed
+              ? 'Well done. Review any marked responses below to sharpen these topics further.'
+              : 'Review the marked responses below, focusing on the sections with the most missed marks.') +
+            '</div></div>';
+
+    html += '<div class="review-list">';
+    answers.forEach(function(a, i){
+      const full = a.score >= 0.999;
+      const none = a.score <= 0.001;
+      const badgeClass = full ? 'full' : (none ? 'none' : 'partial');
+      const badgeText = full ? 'Correct' : (none ? 'Incorrect' : Math.round(a.score*100) + '%');
+      html += '<div class="review-item">';
+      html += '<div class="q-num">Question ' + (i+1) + ' · ' + a.section + '<span class="mark-badge ' + badgeClass + '">' + badgeText + '</span></div>';
+      html += '<div class="q-prompt">' + a.prompt + '</div>';
+      html += '<div class="review-row"><span class="tag">Your answer</span><span class="your-answer ' + (full ? 'right' : 'wrong') + '">' + escapeHtml(a.yourAnswer) + '</span></div>';
+      if (!full){
+        html += '<div class="review-row"><span class="tag">Expected</span><span>' + escapeHtml(a.correctAnswer) + '</span></div>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+
+    html += '<div class="btn-row">';
+    html += '<button class="btn btn-ghost" onclick="window.print()">Print Result Slip</button>';
+    html += '<button class="btn btn-primary" onclick="location.reload()">Retake Examination</button>';
+    html += '</div>';
+    html += '</div>';
+
+    const resultsEl = document.getElementById('resultsScreen');
+    resultsEl.innerHTML = html;
+    resultsEl.style.display = 'block';
+  }
+
+})();
+</script>
+</body>
+</html>
