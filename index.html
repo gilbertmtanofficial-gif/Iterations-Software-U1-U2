@@ -24,7 +24,6 @@
   }
 
   *{ box-sizing: border-box; }
-
   html, body{ height: 100%; }
 
   body{
@@ -47,7 +46,7 @@
   .masthead{
     background: var(--navy);
     color: #F3EFE6;
-    padding: 14px 22px calc(14px + env(safe-area-inset-top, 0px));
+    padding: 14px 22px;
     padding-top: calc(14px + env(safe-area-inset-top, 0px));
     display: flex;
     align-items: center;
@@ -57,29 +56,10 @@
     border-bottom: 3px solid var(--gold);
   }
 
-  .masthead-left{
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .seal{
-    width: 42px;
-    height: 42px;
-    flex-shrink: 0;
-  }
-
-  .masthead-title h1{
-    font-size: 1.15rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-  }
-
-  .masthead-title p{
-    margin: 2px 0 0;
-    font-size: 0.78rem;
-    color: rgba(243,239,230,0.7);
-  }
+  .masthead-left{ display: flex; align-items: center; gap: 14px; }
+  .seal{ width: 42px; height: 42px; flex-shrink: 0; }
+  .masthead-title h1{ font-size: 1.15rem; font-weight: 600; letter-spacing: 0.01em; }
+  .masthead-title p{ margin: 2px 0 0; font-size: 0.78rem; color: rgba(243,239,230,0.7); }
 
   .masthead-right{
     display: flex;
@@ -97,44 +77,131 @@
   }
 
   /* ---------- Layout ---------- */
-  .stage{
-    display: flex;
-    justify-content: center;
-    padding: 34px 16px 60px;
-  }
+  .stage{ display: flex; justify-content: center; padding: 34px 16px 60px; }
 
-  .sheet{
+  .layout{
+    display: grid;
+    grid-template-columns: 270px minmax(0, 760px);
+    gap: 28px;
     width: 100%;
-    max-width: 720px;
+    max-width: 1080px;
+    align-items: start;
   }
 
-  /* ---------- Cover / start screen ---------- */
-  .cover{
+  @media (max-width: 900px){
+    .layout{ grid-template-columns: 1fr; max-width: 720px; }
+    .sidebar{ order: -1; }
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    position: sticky;
+    top: 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 22px 24px;
+  }
+
+  .sidebar h3{ font-size: 0.98rem; font-weight: 600; margin-bottom: 4px; }
+  .sidebar .sidebar-sub{ font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 18px; }
+
+  .overall-bar-track{
+    height: 6px;
+    background: var(--paper-edge);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .overall-bar-fill{
+    height: 100%;
+    background: var(--navy);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+
+  .sidebar-section{ margin-bottom: 15px; }
+  .sidebar-section:last-child{ margin-bottom: 0; }
+
+  .sidebar-section-row{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.83rem;
+    margin-bottom: 6px;
+  }
+
+  .sidebar-section-row .name{ color: var(--ink); }
+  .sidebar-section.active .name{ color: var(--navy); font-weight: 600; }
+  .sidebar-section-row .count{ color: var(--ink-soft); font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; }
+
+  .mini-bar-track{ height: 5px; background: var(--paper-edge); border-radius: 999px; overflow: hidden; }
+  .mini-bar-fill{ height: 100%; border-radius: 999px; transition: width 0.3s ease; }
+  .mini-bar-fill.progress{ background: var(--navy-soft); }
+  .mini-bar-fill.good{ background: var(--good); }
+  .mini-bar-fill.warn{ background: var(--gold); }
+  .mini-bar-fill.poor{ background: var(--maroon); }
+
+  .overview-list{ list-style: none; padding: 0; margin: 0; }
+
+  .overview-list li{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--paper-edge);
+  }
+
+  .overview-list li:last-child{ border-bottom: none; }
+  .overview-list .count{ font-family: 'IBM Plex Mono', monospace; color: var(--ink-soft); }
+
+  .scope-list{ list-style: none; padding: 0; margin: 0; }
+
+  .scope-list li{
+    padding: 11px 0;
+    border-bottom: 1px solid var(--paper-edge);
+  }
+
+  .scope-list li:last-child{ border-bottom: none; }
+
+  .scope-title{
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .scope-desc{
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  .overview-total{
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .overview-total strong{ color: var(--ink); font-family: 'IBM Plex Mono', monospace; }
+
+  /* ---------- Sheet / cover / card ---------- */
+  .sheet{ width: 100%; }
+
+  .cover, .exam-card, .results-card{
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 4px;
     box-shadow: 0 18px 40px rgba(28,32,51,0.12);
-    padding: 44px 40px;
+    padding: 40px 40px;
   }
 
-  .cover h2{
-    font-size: 1.7rem;
-    line-height: 1.25;
-    margin-bottom: 6px;
-  }
+  .cover h2{ font-size: 1.7rem; line-height: 1.25; margin-bottom: 6px; }
+  .cover .subtitle{ color: var(--ink-soft); font-size: 0.98rem; margin-bottom: 28px; }
 
-  .cover .subtitle{
-    color: var(--ink-soft);
-    font-size: 0.98rem;
-    margin-bottom: 28px;
-  }
-
-  .rules{
-    list-style: none;
-    padding: 0;
-    margin: 0 0 30px;
-    border-top: 1px solid var(--line);
-  }
+  .rules{ list-style: none; padding: 0; margin: 0 0 30px; border-top: 1px solid var(--line); }
 
   .rules li{
     padding: 13px 0;
@@ -146,18 +213,9 @@
     line-height: 1.5;
   }
 
-  .rules li .mark{
-    color: var(--maroon);
-    font-weight: 700;
-    flex-shrink: 0;
-  }
+  .rules li .mark{ color: var(--maroon); font-weight: 700; flex-shrink: 0; }
 
-  .field-label{
-    display: block;
-    font-size: 0.82rem;
-    color: var(--ink-soft);
-    margin-bottom: 6px;
-  }
+  .field-label{ display: block; font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 6px; }
 
   .name-input{
     width: 100%;
@@ -171,10 +229,7 @@
     margin-bottom: 30px;
   }
 
-  .name-input:focus{
-    outline: none;
-    border-bottom-color: var(--navy);
-  }
+  .name-input:focus{ outline: none; border-bottom-color: var(--navy); }
 
   /* ---------- Buttons ---------- */
   .btn{
@@ -188,42 +243,17 @@
     transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
 
-  .btn-primary{
-    background: var(--navy);
-    color: #F3EFE6;
-  }
-
-  .btn-primary:hover{
-    background: var(--navy-soft);
-  }
-
+  .btn-primary{ background: var(--navy); color: #F3EFE6; }
+  .btn-primary:hover{ background: var(--navy-soft); }
   .btn-primary:active{ transform: translateY(1px); }
 
-  .btn-ghost{
-    background: transparent;
-    color: var(--navy);
-    border: 1px solid var(--navy);
-  }
-
+  .btn-ghost{ background: transparent; color: var(--navy); border: 1px solid var(--navy); }
   .btn-ghost:hover{ background: rgba(20,33,61,0.06); }
 
-  .btn-row{
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    margin-top: 26px;
-  }
+  .btn-row{ display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; margin-top: 26px; }
 
   /* ---------- Exam card ---------- */
-  .exam-card{
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    box-shadow: 0 18px 40px rgba(28,32,51,0.12);
-    padding: 36px 38px;
-    animation: cardIn 0.28s ease;
-  }
+  .exam-card{ animation: cardIn 0.28s ease; }
 
   @keyframes cardIn{
     from{ opacity: 0; transform: translateY(6px); }
@@ -240,16 +270,8 @@
     margin-bottom: 24px;
   }
 
-  .card-head h2{
-    font-size: 1.15rem;
-    font-weight: 600;
-  }
-
-  .card-head .section-label{
-    margin-top: 4px;
-    font-size: 0.82rem;
-    color: var(--ink-soft);
-  }
+  .card-head h2{ font-size: 1.15rem; font-weight: 600; }
+  .card-head .section-label{ margin-top: 4px; font-size: 0.82rem; color: var(--ink-soft); }
 
   .timer-pill{
     font-family: 'IBM Plex Mono', monospace;
@@ -262,16 +284,8 @@
     white-space: nowrap;
   }
 
-  .timer-pill.warn{
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-
-  .timer-pill.critical{
-    border-color: var(--maroon);
-    color: var(--maroon);
-    animation: pulseTimer 0.9s ease-in-out infinite;
-  }
+  .timer-pill.warn{ border-color: var(--gold); color: var(--gold); }
+  .timer-pill.critical{ border-color: var(--maroon); color: var(--maroon); animation: pulseTimer 0.9s ease-in-out infinite; }
 
   @keyframes pulseTimer{
     0%,100%{ box-shadow: 0 0 0 0 rgba(122,25,48,0.0); }
@@ -286,15 +300,6 @@
     margin: 0 0 22px;
   }
 
-  .prompt .intro{
-    font-size: 1.02rem;
-    color: var(--ink-soft);
-    font-family: 'IBM Plex Sans', sans-serif;
-    margin-bottom: 12px;
-    display: block;
-  }
-
-  /* code listing */
   .listing{
     background: #14213D;
     color: #E9ECF5;
@@ -307,14 +312,8 @@
     overflow-x: auto;
   }
 
-  .listing .ln{
-    color: rgba(233,236,245,0.4);
-    display: inline-block;
-    width: 22px;
-    user-select: none;
-  }
+  .listing .ln{ color: rgba(233,236,245,0.4); display: inline-block; width: 22px; user-select: none; }
 
-  /* answer line (short fill-in) */
   .answer-line{
     width: 100%;
     font-family: 'IBM Plex Sans', sans-serif;
@@ -326,12 +325,8 @@
     color: var(--ink);
   }
 
-  .answer-line:focus{
-    outline: none;
-    border-bottom-color: var(--navy);
-  }
+  .answer-line:focus{ outline: none; border-bottom-color: var(--navy); }
 
-  /* code / pseudocode textarea */
   .answer-code{
     width: 100%;
     min-height: 92px;
@@ -344,26 +339,17 @@
     background: #FFFEFB;
     color: var(--ink);
     resize: vertical;
+    white-space: pre;
+    tab-size: 4;
   }
 
-  .answer-code:focus{
-    outline: none;
-    border-color: var(--navy);
-  }
+  .answer-code:focus{ outline: none; border-color: var(--navy); }
 
-  .sub-label{
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    margin: 18px 0 8px;
-  }
+  .code-hint{ font-size: 0.76rem; color: var(--ink-soft); margin-top: 6px; }
 
-  /* option rows (MCQ, error-type) */
-  .options{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 6px;
-  }
+  .sub-label{ font-size: 0.85rem; color: var(--ink-soft); margin: 18px 0 8px; }
+
+  .options{ display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; }
 
   .option-row{
     display: flex;
@@ -379,21 +365,9 @@
   }
 
   .option-row:hover{ border-color: var(--navy-soft); }
+  .option-row.selected{ background: var(--navy); border-color: var(--navy); color: #F3EFE6; }
+  .option-letter{ font-family: 'IBM Plex Mono', monospace; font-weight: 600; width: 20px; flex-shrink: 0; }
 
-  .option-row.selected{
-    background: var(--navy);
-    border-color: var(--navy);
-    color: #F3EFE6;
-  }
-
-  .option-letter{
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 600;
-    width: 20px;
-    flex-shrink: 0;
-  }
-
-  /* classification sub-parts */
   .classify-part{
     border: 1px solid var(--line);
     border-radius: 4px;
@@ -402,17 +376,8 @@
     background: #FFFEFB;
   }
 
-  .classify-part .part-label{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-  }
-
-  .classify-options{
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+  .classify-part .part-label{ font-family: 'IBM Plex Mono', monospace; font-size: 0.95rem; margin-bottom: 10px; }
+  .classify-options{ display: flex; gap: 10px; flex-wrap: wrap; }
 
   .chip{
     padding: 7px 16px;
@@ -424,23 +389,12 @@
     font-family: 'IBM Plex Sans', sans-serif;
   }
 
-  .chip.selected{
-    background: var(--navy);
-    border-color: var(--navy);
-    color: #F3EFE6;
-  }
+  .chip.selected{ background: var(--navy); border-color: var(--navy); color: #F3EFE6; }
 
-  .no-skip-note{
-    font-size: 0.78rem;
-    color: var(--ink-soft);
-    margin-top: 4px;
-  }
+  .no-skip-note{ font-size: 0.78rem; color: var(--ink-soft); margin-top: 4px; }
 
   /* ---------- Results ---------- */
-  .result-banner{
-    text-align: center;
-    padding: 28px 10px 8px;
-  }
+  .result-banner{ text-align: center; padding: 28px 10px 8px; }
 
   .result-score{
     font-family: 'Source Serif 4', serif;
@@ -450,58 +404,30 @@
     color: var(--navy);
   }
 
-  .result-verdict{
-    font-size: 1rem;
-    font-weight: 600;
-    margin-top: 8px;
-  }
-
+  .result-verdict{ font-size: 1rem; font-weight: 600; margin-top: 8px; }
   .result-verdict.pass{ color: var(--good); }
   .result-verdict.review{ color: var(--maroon); }
 
-  .result-note{
-    color: var(--ink-soft);
-    font-size: 0.92rem;
-    margin-top: 8px;
-  }
+  .result-note{ color: var(--ink-soft); font-size: 0.92rem; margin-top: 8px; }
 
-  .review-list{
+  .review-grid{
     margin-top: 26px;
     border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 
-  .review-item{
-    padding: 16px 0;
-    border-bottom: 1px solid var(--line);
+  @media (min-width: 1180px){
+    .review-grid{ grid-template-columns: 1fr 1fr; column-gap: 30px; }
   }
 
-  .review-item .q-num{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--ink-soft);
-    margin-bottom: 4px;
-  }
+  .review-item{ padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .review-item .q-num{ font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 4px; }
+  .review-item .q-prompt{ font-size: 0.95rem; margin-bottom: 8px; line-height: 1.4; }
 
-  .review-item .q-prompt{
-    font-size: 0.98rem;
-    margin-bottom: 8px;
-    line-height: 1.4;
-  }
-
-  .review-row{
-    display: flex;
-    gap: 8px;
-    font-size: 0.88rem;
-    margin-bottom: 3px;
-    flex-wrap: wrap;
-  }
-
-  .review-row .tag{
-    color: var(--ink-soft);
-    flex-shrink: 0;
-    width: 92px;
-  }
-
+  .review-row{ display: flex; gap: 8px; font-size: 0.86rem; margin-bottom: 3px; flex-wrap: wrap; }
+  .review-row .tag{ color: var(--ink-soft); flex-shrink: 0; width: 92px; }
   .review-row .your-answer.wrong{ color: var(--maroon); }
   .review-row .your-answer.right{ color: var(--good); }
 
@@ -519,7 +445,7 @@
   .mark-badge.none{ background: rgba(122,25,48,0.12); color: var(--maroon); }
 
   @media (max-width: 600px){
-    .exam-card, .cover{ padding: 26px 20px; }
+    .exam-card, .cover, .results-card{ padding: 26px 20px; }
     .card-head{ flex-direction: column; }
     .timer-pill{ align-self: flex-start; }
     .result-score{ font-size: 2.6rem; }
@@ -551,191 +477,594 @@
 </div>
 
 <div class="stage">
-  <div class="sheet">
+  <div class="layout">
 
-    <div id="coverScreen" class="cover">
-      <h2>Before you begin</h2>
-      <p class="subtitle">Please read the conditions of this examination carefully.</p>
+    <div class="sidebar" id="sidebarPanel"></div>
 
-      <ul class="rules">
-        <li><span class="mark">—</span> Each question has its own time limit, shown in the top right corner. Short-answer and multiple-choice questions allow 1 minute; questions involving code or written answers allow 1.5–2 minutes.</li>
-        <li><span class="mark">—</span> Once time runs out on a question, your current answer is submitted automatically and the examination moves on.</li>
-        <li><span class="mark">—</span> Questions cannot be skipped or revisited once submitted.</li>
-        <li><span class="mark">—</span> Typed answers are not case-sensitive — capital or lowercase letters are both accepted.</li>
-        <li><span class="mark">—</span> There are 22 questions in total, covering key terms, error types, test data, and short pseudocode.</li>
-      </ul>
+    <div class="sheet">
 
-      <label class="field-label" for="candidateName">Candidate name (optional)</label>
-      <input type="text" id="candidateName" class="name-input" placeholder="Enter your name">
+      <div id="coverScreen" class="cover">
+        <h2>Before you begin</h2>
+        <p class="subtitle">Please read the conditions of this examination carefully.</p>
 
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="beginExam()">Begin Examination</button>
+        <ul class="rules">
+          <li><span class="mark">—</span> Each question has its own time limit, shown in the top right corner. Short-answer and multiple-choice questions allow 1 minute; questions involving code or written answers allow 1.5–2 minutes.</li>
+          <li><span class="mark">—</span> Once time runs out on a question, your current answer is submitted automatically and the examination moves on.</li>
+          <li><span class="mark">—</span> Questions cannot be skipped or revisited once submitted.</li>
+          <li><span class="mark">—</span> Typed answers are not case-sensitive — capital or lowercase letters are both accepted.</li>
+          <li><span class="mark">—</span> You may retake this examination as many times as you like. Each attempt draws a new set of questions, prioritising ones you have not seen recently over ones you have already answered.</li>
+          <li><span class="mark">—</span> In code answer boxes, pressing Enter after a line ending in a colon automatically indents the next line for you, as a code editor would.</li>
+        </ul>
+
+        <label class="field-label" for="candidateName">Candidate name (optional)</label>
+        <input type="text" id="candidateName" class="name-input" placeholder="Enter your name">
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="beginExam()">Begin Examination</button>
+        </div>
       </div>
+
+      <div id="examScreen" style="display:none;"></div>
+      <div id="resultsScreen" style="display:none;"></div>
+
     </div>
-
-    <div id="examScreen" style="display:none;"></div>
-
-    <div id="resultsScreen" style="display:none;"></div>
-
   </div>
 </div>
 
 <script>
 (function(){
 
-  // ---------------- Question bank ----------------
-  const TIER_A = 60;   // definitions / straightforward MCQ
-  const TIER_B_MED = 90;   // identification / data classification
-  const TIER_B_LONG = 120; // code correction / pseudocode writing
+  const TIER_A = 60;
+  const TIER_B_MED = 90;
+  const TIER_B_LONG = 120;
+  const ERROR_OPTIONS = ["Syntax Error","Runtime Error","Logic Error"];
 
-  const questions = [
-    // Section 1: Key Terms (fill)
-    { type:'fill', section:'Key Terms', time:TIER_A,
-      prompt:"Which term describes a visual representation of an algorithm?",
-      accepted:["flowchart"] },
-    { type:'fill', section:'Key Terms', time:TIER_A,
-      prompt:"This term refers to a sequence of characters that can include text, numbers, or symbols.",
-      accepted:["string"] },
-    { type:'fill', section:'Key Terms', time:TIER_A,
-      prompt:"Which data type is used to store whole numbers?",
-      accepted:["integer"] },
-    { type:'fill', section:'Key Terms', time:TIER_A,
-      prompt:"What is the term for joining two strings together?",
-      accepted:["concatenation"] },
-    { type:'fill', section:'Key Terms', time:TIER_A,
-      prompt:"What is the name given to a named memory location that can store a value?",
-      accepted:["variable"] },
-    { type:'fill', section:'Key Terms', time:TIER_A,
-      prompt:"What term describes step-by-step instructions used to solve a problem?",
-      accepted:["algorithm"] },
-    { type:'fill', section:'Key Terms', time:TIER_A,
-      prompt:"Which type of software runs and manages the computer itself, so that application software can work?",
-      accepted:["system software"] },
-    { type:'fill', section:'Key Terms', time:TIER_A,
-      prompt:"What is the name for software that lets the operating system communicate with a hardware device?",
-      accepted:["device driver"] },
+  // ============================================================
+  // QUESTION BANK — grouped by concept, each with multiple
+  // phrasing variants or, for scenario-based sections, multiple
+  // distinct examples. One attempt samples from this bank.
+  // ============================================================
 
-    // Section 2: Multiple Choice
-    { type:'mcq', section:'Key Terms', time:TIER_A,
-      prompt:"Which of these best describes pseudocode?",
-      options:[
-        "A textual representation of an algorithm that focuses on logic rather than a specific programming language",
-        "A type of error that stops a program from running",
-        "A diagram that shows the flow of a program",
-        "A data type used to store decimal numbers"
-      ], correct:0 },
-    { type:'mcq', section:'Key Terms', time:TIER_A,
-      prompt:"What does the term \"cast\" mean in programming?",
-      options:[
-        "Repeating a set of instructions",
-        "Changing the data type of a variable",
-        "Searching through a list of values",
-        "Storing multiple values under one identifier"
-      ], correct:1 },
-    { type:'mcq', section:'Key Terms', time:TIER_A,
-      prompt:"Which data structure in Python can store multiple items of mixed data types under one identifier?",
-      options:["Array","List","Integer","String"], correct:1 },
-    { type:'mcq', section:'Key Terms', time:TIER_A,
-      prompt:"Which of these is an example of system software?",
-      options:["A word processor","An operating system","A web browser","A photo editor"], correct:1 },
-    { type:'mcq', section:'Key Terms', time:TIER_A,
-      prompt:"What is the purpose of a test plan?",
-      options:[
-        "To write the final program code",
-        "To detail the tests to be carried out, the expected results, and whether each test passed",
-        "To design the layout of a flowchart",
-        "To store the variables used in a program"
-      ], correct:1 },
+  const bank = {
 
-    // Section 3: Identification
-    { type:'fill', section:'Identification', time:TIER_B_MED,
-      prompt:"A programmer repeats an action a set number of times using Python's \"for\" keyword. What type of loop is this?",
-      accepted:["for loop","count-controlled loop","count controlled loop"] },
-    { type:'fill', section:'Identification', time:TIER_B_MED,
-      prompt:"What numerical reference identifies the position of an item stored in an array?",
-      accepted:["index"] },
+    keyTerms: [
+      { accepted:["flowchart"], variants:[
+        "Which term describes a visual representation of an algorithm?",
+        "What do we call a diagram that shows the steps of an algorithm visually?",
+        "Fill in the blank: A ______ is a diagram used to represent an algorithm visually."
+      ]},
+      { accepted:["string"], variants:[
+        "This term refers to a sequence of characters that can include text, numbers, or symbols.",
+        "What data type stores a sequence of characters such as letters, digits, or symbols?",
+        "Fill in the blank: Text data such as \"Hello123\" is stored using the ______ data type."
+      ]},
+      { accepted:["integer"], variants:[
+        "Which data type is used to store whole numbers?",
+        "What is the name of the data type used for numbers with no decimal point?",
+        "Fill in the blank: The number 42 would be stored using the ______ data type."
+      ]},
+      { accepted:["concatenation"], variants:[
+        "What is the term for joining two strings together?",
+        "What do we call the process of combining two strings into one?",
+        "Fill in the blank: Combining \"Sun\" and \"day\" to make \"Sunday\" is called ______."
+      ]},
+      { accepted:["variable"], variants:[
+        "What is the name given to a named memory location that can store a value?",
+        "What term describes a named location in memory used to hold a value that can change?",
+        "Fill in the blank: In programming, a named storage location for a value is called a ______."
+      ]},
+      { accepted:["algorithm"], variants:[
+        "What term describes step-by-step instructions used to solve a problem?",
+        "What do we call a sequence of steps written to solve a particular problem?",
+        "Fill in the blank: A recipe is a real-world example of a(n) ______."
+      ]},
+      { accepted:["system software"], variants:[
+        "Which type of software runs and manages the computer itself, so that application software can work?",
+        "What category of software manages the computer's hardware and resources so other programs can run?",
+        "Fill in the blank: Software such as an operating system is known as ______."
+      ]},
+      { accepted:["device driver"], variants:[
+        "What is the name for software that lets the operating system communicate with a hardware device?",
+        "What type of software allows a printer or other hardware device to work correctly with the operating system?",
+        "Fill in the blank: Without the correct ______, a piece of hardware will not work properly."
+      ]},
+      { accepted:["artificial intelligence"], variants:[
+        "What is the term for a computer system's ability to perform human-like behaviour, such as learning and developing its own programming from experience?",
+        "What do we call the ability of a computer system to behave in ways that mimic human learning and decision-making?",
+        "Fill in the blank: A computer program that learns from experience and adapts its own behaviour demonstrates ______."
+      ]},
+      { accepted:["machine learning"], variants:[
+        "What is the term for a computer system's ability to learn over time?",
+        "What do we call it when a computer system improves its performance automatically through experience?",
+        "Fill in the blank: A system that gets better at a task the more data it processes is using ______."
+      ]},
+      { accepted:["data type"], variants:[
+        "What is the term for the classification applied to a data item, specifying which type of data it represents?",
+        "What term describes the classification given to a piece of data, such as text or a whole number?",
+        "Fill in the blank: Whether a value is treated as a number or as text is decided by its ______."
+      ]},
+      { accepted:["character"], variants:[
+        "What is the term for a single letter, digit, or symbol?",
+        "What do we call one individual letter, number, or symbol on its own?",
+        "Fill in the blank: The letter \"A\" on its own is an example of a ______."
+      ]},
+      { accepted:["real","float"], variants:[
+        "What term is used for a decimal number data type?",
+        "What data type would be used to store the number 3.14?",
+        "Fill in the blank: A number with a decimal point, such as 9.5, is stored using the ______ data type."
+      ]},
+      { accepted:["execute"], variants:[
+        "What term describes carrying out the instructions written in a computer program?",
+        "What do we call the action of a computer running the instructions in a program?",
+        "Fill in the blank: When a computer runs a program's instructions, it is said to ______ the program."
+      ]},
+      { accepted:["array"], variants:[
+        "What is the term for a collection of data items stored under one identifier, in a particular order, where all items must be the same data type?",
+        "What do we call a structure that stores several items of the same data type together, in order, under one name?",
+        "Fill in the blank: A list of five integers stored together under one name, all of the same type, is an example of a(n) ______."
+      ]},
+      { accepted:["function"], variants:[
+        "What is the term for a sub-program that exists as part of a bigger program?",
+        "What do we call a smaller, reusable block of code that performs a specific task within a larger program?",
+        "Fill in the blank: A reusable block of code that performs one task within a bigger program is called a ______."
+      ]}
+    ],
 
-    // Section 4: Error types & correction
-    { type:'code', section:'Error Types', time:TIER_B_LONG,
-      lines:["if x == 5", "    print(\"Five\")"],
-      errorPrompt:"This code will not run at all. What type of error is this?",
-      errorOptions:["Syntax Error","Runtime Error","Logic Error"], correctError:0,
-      fixPrompt:"Rewrite line 1 with the correction.",
-      fixAccepted:["if x == 5:"] },
-    { type:'code', section:'Error Types', time:TIER_B_LONG,
-      lines:["number = 10","result = number / 0","print(result)"],
-      errorPrompt:"This code runs, but crashes partway through. What type of error is this?",
-      errorOptions:["Syntax Error","Runtime Error","Logic Error"], correctError:1,
-      fixPrompt:"Rewrite line 2 so the program no longer crashes, using 5 instead of 0.",
-      fixAccepted:["result = number / 5"] },
-    { type:'code', section:'Error Types', time:TIER_B_LONG,
-      lines:["for i in range(1, 5):","    print(i)"],
-      errorPrompt:"This code runs without crashing, but the output is wrong if the goal was to print the numbers 1 to 5 inclusive. What type of error is this?",
-      errorOptions:["Syntax Error","Runtime Error","Logic Error"], correctError:2,
-      fixPrompt:"Rewrite line 1 so the program prints 1 to 5 inclusive.",
-      fixAccepted:["for i in range(1, 6):"] },
+    mcq: [
+      { correct:0, options:[
+          "A textual representation of an algorithm that focuses on logic rather than a specific programming language",
+          "A type of error that stops a program from running",
+          "A diagram that shows the flow of a program",
+          "A data type used to store decimal numbers"
+        ], variants:[
+          "Which of these best describes pseudocode?",
+          "What is pseudocode?"
+        ]},
+      { correct:1, options:[
+          "Repeating a set of instructions",
+          "Changing the data type of a variable",
+          "Searching through a list of values",
+          "Storing multiple values under one identifier"
+        ], variants:[
+          "What does the term \"cast\" mean in programming?",
+          "In programming, what does it mean to \"cast\" a variable?"
+        ]},
+      { correct:1, options:["Array","List","Integer","String"], variants:[
+          "Which data structure in Python can store multiple items of mixed data types under one identifier?",
+          "Which of these can hold items of different data types together under a single identifier?"
+        ]},
+      { correct:1, options:["A word processor","An operating system","A web browser","A photo editor"], variants:[
+          "Which of these is an example of system software?",
+          "Which of the following would be classed as system software rather than application software?"
+        ]},
+      { correct:1, options:[
+          "To write the final program code",
+          "To detail the tests to be carried out, the expected results, and whether each test passed",
+          "To design the layout of a flowchart",
+          "To store the variables used in a program"
+        ], variants:[
+          "What is the purpose of a test plan?",
+          "Why would a programmer create a test plan before testing a program?"
+        ]},
+      { correct:0, options:[
+          "A technique for predicting, step by step, what will happen as each line of an algorithm runs, used to identify errors",
+          "A diagram showing the flow of a program",
+          "A list of all possible inputs and outputs for a logic circuit",
+          "A document listing the tasks a user expects an application to perform"
+        ], variants:[
+          "Which of these best describes a trace table?",
+          "What is a trace table used for?"
+        ]},
+      { correct:1, options:[
+          "To store multiple values under one identifier",
+          "To list all possible inputs and the resulting outputs of a logic circuit",
+          "To test whether a program runs efficiently",
+          "To describe the steps of an algorithm in plain English"
+        ], variants:[
+          "What is the purpose of a truth table?",
+          "What does a truth table show?"
+        ]},
+      { correct:1, options:[
+          "The final, released version of a product",
+          "An initial version of a product created for testing and review before the final version is released",
+          "A document that lists test cases",
+          "A type of runtime error"
+        ], variants:[
+          "Which of these best describes a prototype?",
+          "What is a prototype in software development?"
+        ]},
+      { correct:0, options:[
+          "A small program that can be called from the main program at any time",
+          "A program that can only run once",
+          "An error that stops a program from compiling",
+          "A named memory location that stores a value"
+        ], variants:[
+          "What is a sub-program?",
+          "Which of these best describes a sub-program?"
+        ]}
+    ],
 
-    // Section 5: Test data classification
-    { type:'classify', section:'Test Data', time:TIER_B_MED,
-      lines:["if age >= 18 and age <= 65:","    print(\"Eligible\")"],
-      intro:"This code checks whether a person is eligible based on age (valid range: 18 to 65 inclusive). Classify each value below.",
-      parts:[
-        { label:"age = 40", correct:0 },
-        { label:"age = 18", correct:1 },
-        { label:"age = 70", correct:2 }
-      ] },
-    { type:'classify', section:'Test Data', time:TIER_B_MED,
-      lines:["if score >= 0 and score <= 100:","    print(\"Valid score\")"],
-      intro:"This code checks whether a score is valid (valid range: 0 to 100 inclusive). Classify each value below.",
-      parts:[
-        { label:"score = 55", correct:0 },
-        { label:"score = 100", correct:1 },
-        { label:"score = -10", correct:2 }
-      ] },
+    identification: [
+      { accepted:["for loop","count-controlled loop","count controlled loop"], variants:[
+        "A programmer repeats an action a set number of times using Python's \"for\" keyword. What type of loop is this?",
+        "What type of loop repeats a set of instructions a fixed number of times?"
+      ]},
+      { accepted:["index"], variants:[
+        "What numerical reference identifies the position of an item stored in an array?",
+        "What is the name of the number used to identify an item's position within an array?"
+      ]},
+      { accepted:["logic error"], variants:[
+        "What type of error allows a program to run, but produces output that is not what was expected?",
+        "If a program runs without crashing but gives the wrong result, what type of error is this?"
+      ]},
+      { accepted:["syntax error"], variants:[
+        "What type of error stops a program from running at all?",
+        "What type of error occurs when code breaks the rules of the programming language, preventing it from running?"
+      ]},
+      { accepted:["runtime error"], variants:[
+        "What type of error occurs while a program is running, when an instruction cannot be completed?",
+        "What type of error causes a program to crash partway through execution?"
+      ]},
+      { accepted:["sequence"], variants:[
+        "What is the term for the order that program code needs to be written in, for it to work correctly?",
+        "What do we call the correct order of steps needed for a program to work as intended?"
+      ]}
+    ],
 
-    // Section 6: Pseudocode / for loops
-    { type:'pseudo', section:'Pseudocode', time:TIER_B_LONG,
-      prompt:"Write code using a for loop that prints the word \"Hello\" three times.",
-      example:"for i in range(3):\n    print(\"Hello\")",
-      patterns:[/for/, /range\(\s*3\s*\)|range\(\s*0\s*,\s*3\s*\)/, /print\(/, /hello/] },
-    { type:'pseudo', section:'Pseudocode', time:TIER_B_LONG,
-      prompt:"Write code using a for loop that prints the numbers 1, 2 and 3, each on its own line.",
-      example:"for i in range(1, 4):\n    print(i)",
-      patterns:[/for/, /range\(\s*1\s*,\s*4\s*\)/, /print\(/] }
+    errorTypes: {
+      syntax: [
+        { lines:["if x == 5", "    print(\"Five\")"],
+          errorPrompt:"This code will not run at all. What type of error is this?",
+          fixPrompt:"Rewrite line 1 with the correction.",
+          fixAccepted:["if x == 5:"] },
+        { lines:["print(\"Hello\"","print(\"World\")"],
+          errorPrompt:"This code will not run at all. What type of error is this?",
+          fixPrompt:"Rewrite line 1 with the correction.",
+          fixAccepted:["print(\"Hello\")"] },
+        { lines:["for i in range(5)","    print(i)"],
+          errorPrompt:"This code will not run at all. What type of error is this?",
+          fixPrompt:"Rewrite line 1 with the correction.",
+          fixAccepted:["for i in range(5):"] },
+        { lines:["name = \"Alex","print(name)"],
+          errorPrompt:"This code will not run at all. What type of error is this?",
+          fixPrompt:"Rewrite line 1 with the correction.",
+          fixAccepted:["name = \"Alex\""] }
+      ],
+      runtime: [
+        { lines:["number = 10","result = number / 0","print(result)"],
+          errorPrompt:"This code runs, but crashes partway through. What type of error is this?",
+          fixPrompt:"Rewrite line 2 so the program no longer crashes, using 5 instead of 0.",
+          fixAccepted:["result = number / 5"] },
+        { lines:["numbers = [1, 2, 3]","print(numbers[5])"],
+          errorPrompt:"This code runs, but crashes when it reaches line 2. What type of error is this?",
+          fixPrompt:"Rewrite line 2 so the program no longer crashes, using index 2 instead of 5.",
+          fixAccepted:["print(numbers[2])"] },
+        { lines:["items = [\"pen\", \"book\"]","print(items[2])"],
+          errorPrompt:"This code runs, but crashes when it reaches line 2. What type of error is this?",
+          fixPrompt:"Rewrite line 2 so the program no longer crashes, using index 1 instead of 2.",
+          fixAccepted:["print(items[1])"] },
+        { lines:["count = 0","average = 100 / count","print(average)"],
+          errorPrompt:"This code runs, but crashes partway through. What type of error is this?",
+          fixPrompt:"Rewrite line 2 so the program no longer crashes, using 4 instead of count.",
+          fixAccepted:["average = 100 / 4"] }
+      ],
+      logic: [
+        { lines:["for i in range(1, 5):","    print(i)"],
+          errorPrompt:"This code runs without crashing, but the output is wrong if the goal was to print the numbers 1 to 5 inclusive. What type of error is this?",
+          fixPrompt:"Rewrite line 1 so the program prints 1 to 5 inclusive.",
+          fixAccepted:["for i in range(1, 6):"] },
+        { lines:["number = 4","if number % 2 == 1:","    print(\"Even\")"],
+          errorPrompt:"This code runs without crashing, but it does not correctly identify even numbers. What type of error is this?",
+          fixPrompt:"Rewrite line 2 so it correctly identifies even numbers.",
+          fixAccepted:["if number % 2 == 0:"] },
+        { lines:["for i in range(0, 10, 2):","    print(i)"],
+          errorPrompt:"This code runs without crashing, but the output is wrong if the goal was to print the odd numbers 1 to 9. What type of error is this?",
+          fixPrompt:"Rewrite line 1 so the program prints the odd numbers 1 to 9.",
+          fixAccepted:["for i in range(1, 10, 2):"] },
+        { lines:["score = 45","if score > 50:","    print(\"Pass\")","else:","    print(\"Fail\")"],
+          errorPrompt:"This code runs without crashing, but it incorrectly marks a score of 45 as a fail when the pass mark should be 40. What type of error is this?",
+          fixPrompt:"Rewrite line 2 so a score of 45 correctly passes, using a pass mark of 40.",
+          fixAccepted:["if score > 40:","if score >= 40:"] }
+      ]
+    },
+
+    classify: [
+      { lines:["if age >= 18 and age <= 65:","    print(\"Eligible\")"],
+        intro:"This code checks whether a person is eligible based on age (valid range: 18 to 65 inclusive). Classify each value below.",
+        parts:[ {label:"age = 40", correct:0}, {label:"age = 18", correct:1}, {label:"age = 70", correct:2} ] },
+      { lines:["if score >= 0 and score <= 100:","    print(\"Valid score\")"],
+        intro:"This code checks whether a score is valid (valid range: 0 to 100 inclusive). Classify each value below.",
+        parts:[ {label:"score = 55", correct:0}, {label:"score = 100", correct:1}, {label:"score = -10", correct:2} ] },
+      { lines:["if length >= 8 and length <= 20:","    print(\"Valid password length\")"],
+        intro:"This code checks whether a password length is valid (valid range: 8 to 20 characters inclusive). Classify each value below.",
+        parts:[ {label:"length = 14", correct:0}, {label:"length = 8", correct:1}, {label:"length = 25", correct:2} ] },
+      { lines:["if temperature >= -10 and temperature <= 40:","    print(\"Valid reading\")"],
+        intro:"This code checks whether a sensor reading is valid (valid range: -10 to 40 inclusive). Classify each value below.",
+        parts:[ {label:"temperature = 20", correct:0}, {label:"temperature = -10", correct:1}, {label:"temperature = 50", correct:2} ] },
+      { lines:["if speed <= 70:","    print(\"Within limit\")"],
+        intro:"This code checks whether a vehicle's speed is within the legal limit of 70 mph or below. Classify each value below.",
+        parts:[ {label:"speed = 50", correct:0}, {label:"speed = 70", correct:1}, {label:"speed = 85", correct:2} ] },
+      { lines:["if quantity >= 1 and quantity <= 999:","    print(\"Valid order\")"],
+        intro:"This code checks whether an order quantity is valid (valid range: 1 to 999 inclusive). Classify each value below.",
+        parts:[ {label:"quantity = 500", correct:0}, {label:"quantity = 999", correct:1}, {label:"quantity = 0", correct:2} ] },
+      { lines:["if marks > 40:","    print(\"Pass\")"],
+        intro:"This code checks whether a candidate passes (they must score strictly more than 40 marks). Classify each value below.",
+        parts:[ {label:"marks = 60", correct:0}, {label:"marks = 41", correct:1}, {label:"marks = 40", correct:2} ] },
+      { lines:["if age >= 18:","    print(\"Can vote\")"],
+        intro:"This code checks whether a person is old enough to vote (18 or older, with no upper limit). Classify each value below.",
+        parts:[ {label:"age = 35", correct:0}, {label:"age = 18", correct:1}, {label:"age = 17", correct:2} ] }
+    ],
+
+    pseudo: [
+      { prompt:"Write code using a for loop that prints the word \"Hello\" three times.",
+        example:"for i in range(3):\n    print(\"Hello\")",
+        patterns:[/for/, /range\(\s*3\s*\)|range\(\s*0\s*,\s*3\s*\)/, /print\(/, /hello/] },
+      { prompt:"Write code using a for loop that prints the numbers 1, 2 and 3, each on its own line.",
+        example:"for i in range(1, 4):\n    print(i)",
+        patterns:[/for/, /range\(\s*1\s*,\s*4\s*\)/, /print\(/] },
+      { prompt:"Write code using a for loop that prints the numbers 0 to 4, each on its own line.",
+        example:"for i in range(5):\n    print(i)",
+        patterns:[/for/, /range\(\s*5\s*\)|range\(\s*0\s*,\s*5\s*\)/, /print\(/] },
+      { prompt:"Write code using a for loop that prints the word \"Computing\" three times.",
+        example:"for i in range(3):\n    print(\"Computing\")",
+        patterns:[/for/, /range\(\s*3\s*\)|range\(\s*0\s*,\s*3\s*\)/, /print\(/, /computing/] },
+      { prompt:"Write code using a for loop that prints the numbers 5 to 9, each on its own line.",
+        example:"for i in range(5, 10):\n    print(i)",
+        patterns:[/for/, /range\(\s*5\s*,\s*10\s*\)/, /print\(/] },
+      { prompt:"Write code using a for loop that prints the word \"Python\" four times.",
+        example:"for i in range(4):\n    print(\"Python\")",
+        patterns:[/for/, /range\(\s*4\s*\)|range\(\s*0\s*,\s*4\s*\)/, /print\(/, /python/] },
+      { prompt:"Write code using a for loop that prints the numbers 1 to 10, each on its own line.",
+        example:"for i in range(1, 11):\n    print(i)",
+        patterns:[/for/, /range\(\s*1\s*,\s*11\s*\)/, /print\(/] },
+      { prompt:"Write code using a for loop that prints the word \"Loop\" six times.",
+        example:"for i in range(6):\n    print(\"Loop\")",
+        patterns:[/for/, /range\(\s*6\s*\)|range\(\s*0\s*,\s*6\s*\)/, /print\(/, /loop/] }
+    ]
+  };
+
+  const BANK_SIZE =
+    bank.keyTerms.reduce(function(s,c){ return s + c.variants.length; }, 0) +
+    bank.mcq.reduce(function(s,c){ return s + c.variants.length; }, 0) +
+    bank.identification.reduce(function(s,c){ return s + c.variants.length; }, 0) +
+    bank.errorTypes.syntax.length + bank.errorTypes.runtime.length + bank.errorTypes.logic.length +
+    bank.classify.length +
+    bank.pseudo.length;
+
+  const sectionOrder = ['Key Terms','Multiple Choice','Identification','Error Types','Test Data','Pseudocode'];
+  const sectionTotals = {
+    'Key Terms': bank.keyTerms.length,
+    'Multiple Choice': bank.mcq.length,
+    'Identification': bank.identification.length,
+    'Error Types': 6,
+    'Test Data': 4,
+    'Pseudocode': 4
+  };
+  const TOTAL_PER_ATTEMPT = sectionOrder.reduce(function(s,sec){ return s + sectionTotals[sec]; }, 0);
+
+  const SCOPE_ITEMS = [
+    { title:"Key computing terms", desc:"Vocabulary and definitions drawn from Units 1 and 2." },
+    { title:"Concept application", desc:"Multiple-choice questions on pseudocode, data structures, testing, and program design." },
+    { title:"Identifying structures & errors", desc:"Naming loop types, index references, and the three error categories." },
+    { title:"Correcting code", desc:"Spotting syntax, runtime, and logic errors in short snippets, then writing the fix." },
+    { title:"Classifying test data", desc:"Recognising normal, extreme, and invalid values against a given condition." },
+    { title:"Writing simple pseudocode", desc:"Short, easy for-loop based problems." }
   ];
 
   const CLASSIFY_LABELS = ["Normal","Extreme","Invalid"];
 
+  function shuffle(arr){
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random()*(i+1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function range(n){ const a = []; for (let i = 0; i < n; i++) a.push(i); return a; }
+
+  // ---------------- Persistent "no-repeat-until-exhausted" draw ----------------
+  // Each pool (a concept's phrasing variants, or a scenario pool like the
+  // error-type examples) keeps a shuffled queue of not-yet-used indices in
+  // localStorage. Drawing takes from the front of that queue first, so every
+  // option in a pool is shown once before anything repeats. When a queue runs
+  // low, it is refilled with a fresh shuffle that excludes whatever was just
+  // drawn, so the reset never immediately re-shows the same item.
+  function loadBagState(){
+    try {
+      const raw = localStorage.getItem('examBagState');
+      return raw ? JSON.parse(raw) : {};
+    } catch (e){ return {}; }
+  }
+  function saveBagState(state){
+    try { localStorage.setItem('examBagState', JSON.stringify(state)); } catch (e){ /* ignore */ }
+  }
+
+  let bagState = loadBagState();
+
+  function drawFromBag(poolKey, poolSize, n){
+    let queue = Array.isArray(bagState[poolKey]) ? bagState[poolKey] : [];
+    queue = queue.filter(function(i){ return i >= 0 && i < poolSize; });
+
+    let picked;
+    if (queue.length >= n){
+      picked = queue.slice(0, n);
+      queue = queue.slice(n);
+    } else {
+      picked = queue.slice();
+      const remainingNeeded = n - picked.length;
+      const fresh = shuffle(range(poolSize)).filter(function(i){ return picked.indexOf(i) === -1; });
+      picked = picked.concat(fresh.slice(0, remainingNeeded));
+      queue = fresh.slice(remainingNeeded);
+    }
+
+    bagState[poolKey] = queue;
+    return picked;
+  }
+
+  function buildAttempt(){
+    const qs = [];
+
+    const keyTermsQs = bank.keyTerms.map(function(concept, i){
+      const [variantIdx] = drawFromBag('keyTerms:' + i, concept.variants.length, 1);
+      return { type:'fill', section:'Key Terms', time:TIER_A,
+                prompt: concept.variants[variantIdx], accepted: concept.accepted };
+    });
+    shuffle(keyTermsQs).forEach(function(q){ qs.push(q); });
+
+    const mcqQs = bank.mcq.map(function(concept, i){
+      const [variantIdx] = drawFromBag('mcq:' + i, concept.variants.length, 1);
+      const tagged = concept.options.map(function(opt, oi){ return { text: opt, orig: oi }; });
+      const shuffledOpts = shuffle(tagged);
+      const newCorrect = shuffledOpts.findIndex(function(o){ return o.orig === concept.correct; });
+      return { type:'mcq', section:'Multiple Choice', time:TIER_A,
+                prompt: concept.variants[variantIdx],
+                options: shuffledOpts.map(function(o){ return o.text; }),
+                correct: newCorrect };
+    });
+    shuffle(mcqQs).forEach(function(q){ qs.push(q); });
+
+    const idQs = bank.identification.map(function(concept, i){
+      const [variantIdx] = drawFromBag('identification:' + i, concept.variants.length, 1);
+      return { type:'fill', section:'Identification', time:TIER_B_MED,
+                prompt: concept.variants[variantIdx], accepted: concept.accepted };
+    });
+    shuffle(idQs).forEach(function(q){ qs.push(q); });
+
+    let errorPicks = [];
+    ['syntax','runtime','logic'].forEach(function(kind, idx){
+      const pool = bank.errorTypes[kind];
+      drawFromBag('error:' + kind, pool.length, 2).forEach(function(pi){
+        errorPicks.push(Object.assign({}, pool[pi], { correctError: idx }));
+      });
+    });
+    shuffle(errorPicks).forEach(function(ex){
+      qs.push({ type:'code', section:'Error Types', time:TIER_B_LONG,
+                lines: ex.lines, errorPrompt: ex.errorPrompt,
+                errorOptions: ERROR_OPTIONS, correctError: ex.correctError,
+                fixPrompt: ex.fixPrompt, fixAccepted: ex.fixAccepted });
+    });
+
+    drawFromBag('classify', bank.classify.length, 4).forEach(function(pi){
+      const ex = bank.classify[pi];
+      qs.push({ type:'classify', section:'Test Data', time:TIER_B_MED,
+                lines: ex.lines, intro: ex.intro, parts: ex.parts });
+    });
+
+    drawFromBag('pseudo', bank.pseudo.length, 4).forEach(function(pi){
+      const ex = bank.pseudo[pi];
+      qs.push({ type:'pseudo', section:'Pseudocode', time:TIER_B_LONG,
+                prompt: ex.prompt, example: ex.example, patterns: ex.patterns });
+    });
+
+    saveBagState(bagState);
+    return qs;
+  }
+
   // ---------------- State ----------------
+  let questions = [];
   let current = 0;
   let answers = [];
   let questionTimerId = null;
   let elapsedTimerId = null;
   let elapsedSeconds = 0;
   let examActive = false;
-
-  // in-progress response for the current question
   let resp = {};
 
-  function normalizeTight(s){
-    return (s || "").toString().trim().toLowerCase().replace(/\s+/g, "");
-  }
-  function normalizeLoose(s){
-    return (s || "").toString().trim().toLowerCase().replace(/\s+/g, " ");
-  }
+  function normalizeTight(s){ return (s || "").toString().trim().toLowerCase().replace(/\s+/g, ""); }
+  function normalizeLoose(s){ return (s || "").toString().trim().toLowerCase().replace(/\s+/g, " "); }
   function formatTime(sec){
     sec = Math.max(0, sec);
     const m = Math.floor(sec / 60);
     const s = sec % 60;
     return String(m).padStart(2,'0') + ":" + String(s).padStart(2,'0');
   }
+  function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   window.addEventListener('beforeunload', function(e){
-    if (examActive){
-      e.preventDefault();
-      e.returnValue = '';
-    }
+    if (examActive){ e.preventDefault(); e.returnValue = ''; }
   });
+
+  // ---------------- Auto-indent for code textareas ----------------
+  function handleAutoIndent(e){
+    if (e.key !== 'Enter') return;
+    const ta = e.target;
+    e.preventDefault();
+
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const value = ta.value;
+
+    const lineStart = value.lastIndexOf('\n', start - 1) + 1;
+    const currentLine = value.slice(lineStart, start);
+    const indentMatch = currentLine.match(/^[ \t]*/);
+    let indent = indentMatch ? indentMatch[0] : '';
+
+    if (currentLine.trim().endsWith(':')){
+      indent += '    ';
+    }
+
+    const insertText = '\n' + indent;
+    ta.value = value.slice(0, start) + insertText + value.slice(end);
+    const newPos = start + insertText.length;
+    ta.selectionStart = ta.selectionEnd = newPos;
+  }
+
+  // ---------------- Sidebar ----------------
+  function renderSidebar(mode){
+    const panel = document.getElementById('sidebarPanel');
+    let html = '';
+
+    if (mode === 'cover'){
+      html += '<h3>Scope of this examination</h3>';
+      html += '<div class="sidebar-sub">This practice exam covers the following areas.</div>';
+      html += '<ul class="scope-list">';
+      SCOPE_ITEMS.forEach(function(item){
+        html += '<li><div class="scope-title">' + item.title + '</div><div class="scope-desc">' + item.desc + '</div></li>';
+      });
+      html += '</ul>';
+      html += '<div class="overview-total">Questions: <strong>' + TOTAL_PER_ATTEMPT + '</strong> · Time allowed: approx. <strong>' + Math.round(sectionOrder.reduce(function(s,sec){
+        const perQ = sec === 'Key Terms' || sec === 'Multiple Choice' ? TIER_A : (sec === 'Identification' || sec === 'Test Data' ? TIER_B_MED : TIER_B_LONG);
+        return s + perQ * sectionTotals[sec];
+      }, 0) / 60) + ' min</strong></div>';
+    }
+
+    else if (mode === 'exam'){
+      const q = questions[current];
+      html += '<h3>Progress</h3>';
+      html += '<div class="sidebar-sub">Question ' + (current+1) + ' of ' + questions.length + '</div>';
+      html += '<div class="overall-bar-track"><div class="overall-bar-fill" style="width:' + Math.round((current/questions.length)*100) + '%"></div></div>';
+
+      sectionOrder.forEach(function(sec){
+        const answeredInSection = answers.filter(function(a){ return a.section === sec; }).length;
+        const total = sectionTotals[sec];
+        const pct = Math.round((answeredInSection/total)*100);
+        const isActive = (q.section === sec);
+        html += '<div class="sidebar-section' + (isActive ? ' active' : '') + '">';
+        html += '<div class="sidebar-section-row"><span class="name">' + sec + '</span><span class="count">' + answeredInSection + ' / ' + total + '</span></div>';
+        html += '<div class="mini-bar-track"><div class="mini-bar-fill progress" style="width:' + pct + '%"></div></div>';
+        html += '</div>';
+      });
+    }
+
+    else if (mode === 'results'){
+      html += '<h3>Score by section</h3>';
+      html += '<div class="sidebar-sub">Where to focus your revision</div>';
+      sectionOrder.forEach(function(sec){
+        const secAnswers = answers.filter(function(a){ return a.section === sec; });
+        const total = sectionTotals[sec];
+        const scoreSum = secAnswers.reduce(function(s,a){ return s + a.score; }, 0);
+        const pct = Math.round((scoreSum/total)*100);
+        const barClass = pct >= 70 ? 'good' : (pct >= 40 ? 'warn' : 'poor');
+        html += '<div class="sidebar-section">';
+        html += '<div class="sidebar-section-row"><span class="name">' + sec + '</span><span class="count">' + pct + '%</span></div>';
+        html += '<div class="mini-bar-track"><div class="mini-bar-fill ' + barClass + '" style="width:' + pct + '%"></div></div>';
+        html += '</div>';
+      });
+    }
+
+    panel.innerHTML = html;
+  }
 
   // ---------------- Elapsed clock ----------------
   function startElapsedClock(){
@@ -745,19 +1074,17 @@
       document.getElementById('elapsedDisplay').textContent = formatTime(elapsedSeconds);
     }, 1000);
   }
-  function stopElapsedClock(){
-    clearInterval(elapsedTimerId);
-  }
+  function stopElapsedClock(){ clearInterval(elapsedTimerId); }
 
   // ---------------- Begin exam ----------------
   window.beginExam = function(){
     const name = document.getElementById('candidateName').value.trim();
-    document.getElementById('candidateDisplay').textContent =
-      'Candidate: ' + (name ? name : '—');
+    document.getElementById('candidateDisplay').textContent = 'Candidate: ' + (name ? name : '—');
 
     document.getElementById('coverScreen').style.display = 'none';
     document.getElementById('examScreen').style.display = 'block';
 
+    questions = buildAttempt();
     examActive = true;
     current = 0;
     answers = [];
@@ -769,7 +1096,6 @@
   function startQuestionTimer(totalTime){
     let remaining = totalTime;
     updateTimerPill(remaining, totalTime);
-
     questionTimerId = setInterval(function(){
       remaining--;
       updateTimerPill(remaining, totalTime);
@@ -779,19 +1105,14 @@
       }
     }, 1000);
   }
-  function stopQuestionTimer(){
-    clearInterval(questionTimerId);
-  }
+  function stopQuestionTimer(){ clearInterval(questionTimerId); }
   function updateTimerPill(remaining, total){
     const pill = document.getElementById('timerPill');
     if (!pill) return;
     pill.textContent = formatTime(remaining);
     pill.classList.remove('warn','critical');
-    if (remaining <= 10){
-      pill.classList.add('critical');
-    } else if (remaining <= total * 0.34){
-      pill.classList.add('warn');
-    }
+    if (remaining <= 10){ pill.classList.add('critical'); }
+    else if (remaining <= total * 0.34){ pill.classList.add('warn'); }
   }
 
   // ---------------- Rendering ----------------
@@ -815,21 +1136,18 @@
     else if (q.type === 'mcq'){
       html += '<p class="prompt">' + q.prompt + '</p>';
       html += '<div class="options" id="mcqOptions">';
-      q.options.forEach(function(opt, i){
-        html += optionRow(i, opt, 'mcq');
-      });
+      q.options.forEach(function(opt, i){ html += optionRow(i, opt, 'mcq'); });
       html += '</div>';
     }
 
     else if (q.type === 'code'){
       html += '<p class="prompt">' + codeListing(q.lines) + '<span style="display:block; margin-top:16px;">' + q.errorPrompt + '</span></p>';
       html += '<div class="options" id="errorOptions">';
-      q.errorOptions.forEach(function(opt, i){
-        html += optionRow(i, opt, 'error');
-      });
+      q.errorOptions.forEach(function(opt, i){ html += optionRow(i, opt, 'error'); });
       html += '</div>';
       html += '<div class="sub-label">' + q.fixPrompt + '</div>';
       html += '<textarea class="answer-code" id="fixInput" placeholder="Write the corrected line here" spellcheck="false"></textarea>';
+      html += '<div class="code-hint">Tip: press Enter after a line ending in a colon to auto-indent the next line.</div>';
     }
 
     else if (q.type === 'classify'){
@@ -848,6 +1166,7 @@
     else if (q.type === 'pseudo'){
       html += '<p class="prompt">' + q.prompt + '</p>';
       html += '<textarea class="answer-code" id="pseudoInput" placeholder="Write your code here" spellcheck="false"></textarea>';
+      html += '<div class="code-hint">Tip: press Enter after a line ending in a colon to auto-indent the next line.</div>';
     }
 
     html += '<div class="no-skip-note">This question cannot be skipped. Submit your answer to continue.</div>';
@@ -857,21 +1176,22 @@
     html += '</div>';
 
     container.innerHTML = html;
+    renderSidebar('exam');
 
-    if (q.type === 'mcq'){
-      attachOptionHandlers('mcqOptions', 'mcq');
-    } else if (q.type === 'code'){
-      attachOptionHandlers('errorOptions', 'error');
-    }
+    if (q.type === 'mcq'){ attachOptionHandlers('mcqOptions', 'mcq'); }
+    else if (q.type === 'code'){ attachOptionHandlers('errorOptions', 'error'); }
 
-    // focus + enter-to-submit for single-line inputs
     const fillEl = document.getElementById('fillInput');
     if (fillEl){
       fillEl.focus();
-      fillEl.addEventListener('keydown', function(e){
-        if (e.key === 'Enter') submitAnswer(false);
-      });
+      fillEl.addEventListener('keydown', function(e){ if (e.key === 'Enter') submitAnswer(false); });
     }
+
+    const fixEl = document.getElementById('fixInput');
+    if (fixEl){ fixEl.addEventListener('keydown', handleAutoIndent); }
+
+    const pseudoEl = document.getElementById('pseudoInput');
+    if (pseudoEl){ pseudoEl.addEventListener('keydown', handleAutoIndent); pseudoEl.focus(); }
 
     startQuestionTimer(q.time);
   }
@@ -909,15 +1229,9 @@
 
   function codeListing(lines){
     let html = '<span class="listing" style="display:block;">';
-    lines.forEach(function(line, i){
-      html += '<span class="ln">' + (i+1) + '</span>' + escapeHtml(line) + '<br>';
-    });
+    lines.forEach(function(line, i){ html += '<span class="ln">' + (i+1) + '</span>' + escapeHtml(line) + '<br>'; });
     html += '</span>';
     return html;
-  }
-
-  function escapeHtml(s){
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
   // ---------------- Grading ----------------
@@ -988,11 +1302,8 @@
     answers.push(record);
 
     current++;
-    if (current < questions.length){
-      renderQuestion();
-    } else {
-      finishExam();
-    }
+    if (current < questions.length){ renderQuestion(); }
+    else { finishExam(); }
   };
 
   // ---------------- Results ----------------
@@ -1005,18 +1316,18 @@
     const pct = Math.round((totalScore / questions.length) * 100);
     const passed = pct >= 50;
 
-    let html = '<div class="exam-card">';
+    renderSidebar('results');
+
+    let html = '<div class="results-card">';
     html += '<div class="result-banner">';
     html += '<div class="result-score">' + pct + '%</div>';
-    html += '<div class="result-verdict ' + (passed ? 'pass' : 'review') + '">' +
-            (passed ? 'Result: Pass' : 'Result: Below passing mark') + '</div>';
+    html += '<div class="result-verdict ' + (passed ? 'pass' : 'review') + '">' + (passed ? 'Result: Pass' : 'Result: Below passing mark') + '</div>';
     html += '<div class="result-note">' +
-            (passed
-              ? 'Well done. Review any marked responses below to sharpen these topics further.'
-              : 'Review the marked responses below, focusing on the sections with the most missed marks.') +
+            (passed ? 'Well done. Review any marked responses below to sharpen these topics further.'
+                    : 'Review the marked responses below, focusing on the sections with the most missed marks.') +
             '</div></div>';
 
-    html += '<div class="review-list">';
+    html += '<div class="review-grid">';
     answers.forEach(function(a, i){
       const full = a.score >= 0.999;
       const none = a.score <= 0.001;
@@ -1043,6 +1354,8 @@
     resultsEl.innerHTML = html;
     resultsEl.style.display = 'block';
   }
+
+  renderSidebar('cover');
 
 })();
 </script>
